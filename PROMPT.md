@@ -1,28 +1,60 @@
-# Bolt App 2 — Timeline Studio (Micro-App)
+# Bolt — Timeline Studio
 
-Before you start: read and follow `DESIGN_SYSTEM_BRIEF.md`.
+**GitHub repo:** `saravanakumardb/temp_bolt-timeline-studio`
 
-## Mission
+## Push Instructions
 
-Build a UI/UX-rich Next.js micro-app called **Timeline Studio** that demonstrates timeline/scheduler editing patterns (drag, resize, inspector). This should be reusable inspiration for ChronoMind timelines and routines UX.
+- Push directly to `main` — do NOT open a PR
+- Only modify files in this repo
 
-## Scope / Safety
+## Rules
 
-- Only change files in this repository.
-- No network calls; mock data + localStorage only
 - No `console.log`
-- No hardcoded colors; define CSS variables once and use Tailwind
+- No network calls — mock data / localStorage only
+- No hardcoded colors — no hex, no rgb/rgba/hsl, no `bg-[#123456]` Tailwind classes
+- Do NOT commit `.env*`, `.next/`, `node_modules/`, `.vercel/`
+- pnpm only
+- `pnpm run check` must pass (`tsc --noEmit` + `eslint`)
+- `pnpm run build` must pass (`next build --webpack`)
+
+## CSS Token Contract
+
+Define in `src/app/globals.css` under `:root` (add `.dark` override):
+
+- `--ux-bg` — page background
+- `--ux-surface` — card/panel surface
+- `--ux-surface-2` — elevated surface
+- `--ux-border` — borders
+- `--ux-text` — primary text
+- `--ux-text-muted` — secondary text
+- `--ux-accent` — primary accent
+- `--ux-accent-foreground` — text on accent
+- `--ux-danger` — destructive/error
+- `--ux-warning` — warning
+- `--ux-success` — success
+- `--ux-ring` — focus ring
+- `--ux-shadow` — shadows
+
+Use only via Tailwind: `bg-[var(--ux-surface)]`, `text-[var(--ux-text)]`, `border-[var(--ux-border)]`
+
+## Component Architecture
+
+- Reusable components → `src/components/`
+- Pages in `src/app/**` compose components only
+- Components must NOT import from `src/app/**`
 
 ## Stack
 
-- Next.js 16 App Router
-- React 19
-- Tailwind v4
-- TypeScript strict
-- pnpm
-- lucide-react icons
+- Next.js 16 App Router, React 19, TypeScript strict
+- TailwindCSS v4, pnpm
 
-## Routes
+## Mission
+
+Build a **Timeline Studio** micro-app demonstrating timeline/scheduler editing (drag, resize, inspector). Reusable inspiration for ChronoMind timelines and routines UX.
+
+Additional: lucide-react icons
+
+## Pages
 
 - `/` overview + recent plans
 - `/studio` main editor
@@ -30,60 +62,25 @@ Build a UI/UX-rich Next.js micro-app called **Timeline Studio** that demonstrate
 
 ## Layout
 
-- Left sidebar: list of “plans” (templates)
-- Main canvas: timeline grid
-- Right inspector: edit selected block
+Left sidebar (plans list), main canvas (timeline grid), right inspector (edit selected block)
 
-## Timeline interactions (must-have)
+## Timeline Interactions
 
-- Lanes (e.g. Work, Personal, Health)
-- Blocks can be:
-  - created (button + click on grid)
-  - selected
-  - dragged to move
-  - resized via left/right handles
-- Snap-to-grid increments (5 min)
-- Zoom levels (15m / 30m / 60m)
-- Keyboard:
-  - `Esc` deselect
-  - `Delete` remove selected
-  - `Cmd+Z` undo (simple history stack)
+- Lanes (Work, Personal, Health)
+- Blocks: create (button + click), select, drag to move, resize via handles
+- Snap-to-grid (5 min), zoom levels (15m / 30m / 60m)
+- Keyboard: `Esc` deselect, `Delete` remove, `Cmd+Z` undo (history stack)
 
-## Inspector (must-have)
+## Inspector
 
-- Title
-- Start/end time
-- Lane
-- Tags
-- Notes
+Title, start/end time, lane, tags, notes — persist to localStorage (plans, blocks, zoom, last opened plan)
 
-Persist in localStorage:
+## UX Quality
 
-- plans list
-- blocks
-- zoom
-- last opened plan
-
-## UX quality bar
-
-- Clear selection states + resize handles
-- Good hit targets
-- Subtle animations
-- Empty state onboarding hints
-
-## Deliverables
-
-- Full Next.js app with scripts: `dev`, `check`, `build`
-- `build` must run `next build --webpack`
+Clear selection states + resize handles, good hit targets, subtle animations, empty state hints
 
 ## Verification
 
-From the repo root:
-
-- `pnpm install`
-- `pnpm run check`
-- `pnpm run build`
-
-## Output expectation
-
-PR contains only this app.
+```
+pnpm install && pnpm run check && pnpm run build
+```
